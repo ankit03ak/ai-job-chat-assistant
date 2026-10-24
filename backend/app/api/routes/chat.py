@@ -28,4 +28,5 @@ def chat(
         conversation_id=request.conversation_id,
         resume_profile=request.resume_profile,
         visible_job_ids=request.visible_job_ids,
+        visible_job_offset=request.visible_job_offset,
     )

@@ -1,6 +1,6 @@
-# Hidani AI Job Chat Assistant
+# AI Job Chat Assistant
 
-An AI-assisted job discovery application for the Hidani Tech SDE Intern
+An AI-assisted job discovery application created for a software engineering
 assessment. A user uploads a PDF or DOCX resume, receives a structured profile,
 searches and ranks jobs conversationally, records simulated applications, and
 reviews application history.

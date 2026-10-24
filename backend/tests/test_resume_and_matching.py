@@ -6,7 +6,11 @@ import pytest
 from app.schemas.job import Job
 from app.schemas.resume import ResumeProfile
 from app.services.job_matcher import JobMatcher
-from app.services.resume_parser import ResumeParseError, extract_resume_text
+from app.services.resume_parser import (
+    ResumeParseError,
+    extract_resume_text,
+    validate_resume_text,
+)
 
 
 def test_invalid_resume_type_and_empty_content_are_rejected():
@@ -19,6 +23,17 @@ def test_invalid_resume_type_and_empty_content_are_rejected():
 def test_resume_size_limit_is_enforced():
     with pytest.raises(ResumeParseError, match="5 MB"):
         extract_resume_text(b"x" * (5 * 1024 * 1024 + 1), "resume.docx", 5)
+
+
+def test_non_resume_text_is_rejected_before_profile_extraction():
+    with pytest.raises(ResumeParseError, match="does not appear to be a resume"):
+        validate_resume_text("Quarterly sales report with revenue totals and forecasts.")
+
+
+def test_resume_text_with_profile_markers_is_accepted():
+    validate_resume_text(
+        "Alex Doe\nalex@example.com\nWork Experience\nTechnical Skills\nEducation"
+    )
 
 
 def test_match_score_is_bounded_and_deterministic():

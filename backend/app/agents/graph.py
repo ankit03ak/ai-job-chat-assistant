@@ -73,7 +73,8 @@ def interpret_search_preferences(state: AgentState) -> AgentState:
     generic = re.sub(
         r"\b(show|find|search|recommend|jobs?|roles?|please|only|me|requiring|required|"
         r"that|are|with|in|for|and|the|on-site|onsite|remote|hybrid|full-time|full time|"
-        r"part-time|part time|contract|internship)\b",
+        r"part-time|part time|contract|internship|matching|matched|personalized|"
+        r"recommendations?|based|resume)\b",
         " ",
         lowered,
     )
@@ -85,14 +86,24 @@ def interpret_search_preferences(state: AgentState) -> AgentState:
 def filter_and_rank_jobs(
     state: AgentState, repository: JobRepository
 ) -> AgentState:
-    matched_jobs = search_jobs(repository, state.get("search_filters", {}), state.get("resume_profile"))
+    matched_jobs = search_jobs(
+        repository,
+        state.get("search_filters", {}),
+        state.get("resume_profile"),
+        technical_only=state.get("technical_only", False),
+    )
     return {**state, "matched_jobs": matched_jobs}
 
 
 def create_application(
     state: AgentState, repository: JobRepository, session: Session
 ) -> AgentState:
-    job_id = resolve_visible_job(state["message"], state.get("visible_job_ids", []), repository)
+    job_id = resolve_visible_job(
+        state["message"],
+        state.get("visible_job_ids", []),
+        repository,
+        state.get("visible_job_offset", 0),
+    )
     if not job_id:
         return {
             **state,
@@ -190,6 +201,7 @@ def run_chat(
     conversation_id: str | None,
     resume_profile,
     visible_job_ids: list[str],
+    visible_job_offset: int = 0,
 ) -> ChatResponse:
     graph = build_graph(repository, session_factory)
     result = graph.invoke(
@@ -197,6 +209,8 @@ def run_chat(
             "message": message,
             "resume_profile": resume_profile,
             "visible_job_ids": visible_job_ids,
+            "visible_job_offset": visible_job_offset,
+            "technical_only": message.casefold().strip() == "show matching jobs",
             "errors": [],
         }
     )

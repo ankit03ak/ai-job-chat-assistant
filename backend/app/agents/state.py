@@ -19,8 +19,10 @@ class AgentState(TypedDict, total=False):
     message: str
     resume_profile: ResumeProfile | None
     visible_job_ids: list[str]
+    visible_job_offset: int
     intent: str
     search_filters: SearchFilters
+    technical_only: bool
     matched_jobs: list[JobMatch]
     selected_job_id: str | None
     application_result: ApplicationResponse | None

@@ -1,5 +1,6 @@
 import logging
 import os
+import re
 import tempfile
 from pathlib import Path
 
@@ -11,6 +12,34 @@ logger = logging.getLogger(__name__)
 
 class ResumeParseError(ValueError):
     """Raised when a resume cannot be safely extracted."""
+
+
+_RESUME_MARKERS = (
+    "resume",
+    "curriculum vitae",
+    "professional summary",
+    "work experience",
+    "employment",
+    "education",
+    "projects",
+    "certifications",
+    "technical skills",
+    "skills",
+)
+
+
+def validate_resume_text(text: str) -> None:
+    normalized = " ".join(text.casefold().split())
+    marker_count = sum(marker in normalized for marker in _RESUME_MARKERS)
+    has_contact = bool(
+        re.search(r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b", text, re.IGNORECASE)
+        or re.search(r"(?:\+?\d[\d\s().-]{7,}\d)", text)
+    )
+    if marker_count < 2 and not (has_contact and marker_count >= 1):
+        raise ResumeParseError(
+            "This document does not appear to be a resume. Upload a resume containing "
+            "your experience, skills, education, or projects."
+        )
 
 
 def _extract_pdf(path: Path) -> str:
@@ -57,4 +86,5 @@ def extract_resume_text(content: bytes, filename: str, max_upload_mb: int) -> st
         if suffix == ".pdf":
             raise ResumeParseError("This PDF contains no extractable text. An OCR-enabled PDF is required.")
         raise ResumeParseError("The resume contains no extractable text.")
+    validate_resume_text(text)
     return text

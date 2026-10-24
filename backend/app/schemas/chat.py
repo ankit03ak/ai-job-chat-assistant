@@ -11,6 +11,7 @@ class ChatRequest(BaseModel):
     conversation_id: str | None = None
     resume_profile: ResumeProfile | None = None
     visible_job_ids: list[str] = Field(default_factory=list)
+    visible_job_offset: int = Field(default=0, ge=0)
 
 
 class ChatResponse(BaseModel):
