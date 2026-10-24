@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from app.scrapers.registry import collect_sources  # noqa: E402
+from app.scrapers.registry import collect_sources, load_adapters  # noqa: E402
 
 logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"))
 
@@ -17,11 +17,16 @@ logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"))
 def main() -> int:
     parser = argparse.ArgumentParser(description="Collect jobs from explicitly registered permitted adapters.")
     parser.add_argument("--output", type=Path, default=ROOT / "data" / "jobs.json")
+    parser.add_argument("--sources", type=Path, default=ROOT / "data" / "job_sources.json")
     parser.add_argument("--max-records", type=int, default=None)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
-    # No source is registered until its terms and permitted endpoint are verified.
-    records, results, duplicates = collect_sources([], max_records=args.max_records)
+    try:
+        adapters = load_adapters(args.sources)
+    except (OSError, json.JSONDecodeError, KeyError) as exc:
+        print(f"Could not load source configuration: {exc}", file=sys.stderr)
+        return 2
+    records, results, duplicates = collect_sources(adapters, max_records=args.max_records)
     for source, result in results.items():
         for error in result.errors:
             logging.error("%s: %s", source, error)

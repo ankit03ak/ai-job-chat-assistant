@@ -16,9 +16,8 @@ Run tests with:
 python -m pytest
 ```
 
-The checked-in `data/jobs.json` is intentionally empty until permitted sources are
-verified and listings are collected with provenance. Tests use temporary synthetic
-fixtures and do not modify the production dataset.
+The checked-in `data/jobs.json` contains the collected normalized dataset.
+Tests use temporary synthetic fixtures and do not modify the production dataset.
 
 ## Dataset and collection scripts
 
@@ -28,17 +27,33 @@ Validate the production dataset:
 python scripts/validate_jobs.py
 ```
 
-Run the collector in dry-run mode:
+Review the enabled public Greenhouse and Lever boards in
+`data/job_sources.json`, then run the collector in dry-run mode:
 
 ```powershell
 python scripts/scrape_jobs.py --dry-run --max-records 2000
 ```
 
-The collector has no source adapter registered by default. A source must be
-verified as permitted before an adapter is added. Non-dry-run collection refuses
-to overwrite `data/jobs.json` when no adapter is configured. Collection uses
-provenance, canonical URL/job-id/fingerprint deduplication, bounded retries,
-rate-limit errors, maximum-record limits, and atomic writes.
+The collector includes public Greenhouse and Lever adapters. Non-dry-run
+collection refuses to overwrite `data/jobs.json` when no adapter is configured.
+Collection uses provenance, canonical URL/job-id/fingerprint deduplication,
+bounded retries, rate-limit errors, maximum-record limits, and atomic writes.
+The Lever iframe embed is not the data endpoint; use the corresponding
+`https://api.lever.co/v0/postings/{token}?mode=json` endpoint.
+
+For Greenhouse, use the board token from the careers URL. Greenhouse content is
+cleaned from HTML and the original `absolute_url` is preserved as `source_url`.
+
+The helper scripts are safe to run from any working directory:
+
+```powershell
+cd backend
+python scripts/build_sources.py
+python scripts/trim_sources.py
+python scripts/scrape_jobs.py --dry-run --max-records 2000
+python scripts/scrape_jobs.py --max-records 2000
+python scripts/validate_jobs.py
+```
 
 Synthetic fixtures are always written separately:
 

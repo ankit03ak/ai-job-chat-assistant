@@ -37,18 +37,46 @@ def interpret_search_preferences(state: AgentState) -> AgentState:
     message = state["message"]
     lowered = message.casefold()
     filters: SearchFilters = {}
-    for skill in ("react", "python", "fastapi", "typescript", "javascript", "java"):
-        if skill in lowered:
-            filters["skill"] = skill
-            break
+    known_skills = (
+        "react",
+        "python",
+        "fastapi",
+        "typescript",
+        "javascript",
+        "java",
+        "node",
+        "node.js",
+        "sql",
+        "aws",
+        "azure",
+        "docker",
+        "kubernetes",
+        "django",
+        "flask",
+        "machine learning",
+        "data science",
+    )
+    skill = next((item for item in known_skills if re.search(rf"\b{re.escape(item)}\b", lowered)), None)
+    if skill:
+        filters["skill"] = skill
     for mode in ("remote", "hybrid", "on-site", "onsite"):
         if mode in lowered:
             filters["work_mode"] = "on-site" if mode == "onsite" else mode
             break
-    experience = re.search(r"\b\d+\s*[-to]+\s*\d+\s*years?\b", lowered)
+    experience = re.search(r"\b\d+\s*(?:-|to)\s*\d+\s*years?\b", lowered)
     if experience:
-        filters["experience"] = experience.group(0).replace(" ", "")
-    generic = re.sub(r"\b(show|find|jobs?|roles?|please|only|me|requiring|required|that|are|with)\b", " ", lowered)
+        filters["experience"] = re.sub(r"\s+", "", experience.group(0))
+    for employment_type in ("full-time", "full time", "part-time", "part time", "contract", "internship"):
+        if employment_type in lowered:
+            filters["employment_type"] = employment_type.replace(" ", "-")
+            break
+    generic = re.sub(
+        r"\b(show|find|search|recommend|jobs?|roles?|please|only|me|requiring|required|"
+        r"that|are|with|in|for|and|the|on-site|onsite|remote|hybrid|full-time|full time|"
+        r"part-time|part time|contract|internship)\b",
+        " ",
+        lowered,
+    )
     if generic.strip() and not filters:
         filters["q"] = generic.strip()
     return {**state, "search_filters": filters}
@@ -78,6 +106,7 @@ def create_application(
         return {
             **state,
             "application_result": result,
+            "applications": [result],
             "reply": f"Recorded a simulated application for {result.job_title_snapshot} at {result.company_snapshot}. "
             "This was saved locally and was not sent to the employer.",
         }
@@ -89,10 +118,18 @@ def create_application(
 
 def track_applications(state: AgentState, repository: JobRepository, session: Session) -> AgentState:
     applications = list_applications(repository, session)
+    details = " ".join(
+        f"{index}. {application.job_title_snapshot} at {application.company_snapshot} "
+        f"({application.status.replace('_', ' ')})"
+        for index, application in enumerate(applications, start=1)
+    )
     return {
         **state,
         "applications": applications,
-        "reply": f"You have {len(applications)} locally recorded simulated application(s).",
+        "reply": (
+            f"You have {len(applications)} locally recorded simulated application(s)."
+            + (f" {details}" if details else "")
+        ),
     }
 
 

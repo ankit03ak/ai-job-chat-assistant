@@ -1,6 +1,22 @@
+import json
 from collections.abc import Iterable
+from pathlib import Path
 
 from app.scrapers.base import SourceResult, deduplicate_jobs
+from app.scrapers.greenhouse import GreenhouseAdapter
+from app.scrapers.lever import LeverAdapter
+
+
+def load_adapters(path: str | Path) -> list[GreenhouseAdapter | LeverAdapter]:
+    configuration = json.loads(Path(path).read_text(encoding="utf-8"))
+    adapters: list[GreenhouseAdapter | LeverAdapter] = []
+    for source in configuration.get("greenhouse", []):
+        if source.get("enabled", True):
+            adapters.append(GreenhouseAdapter(source["company"], source["token"]))
+    for source in configuration.get("lever", []):
+        if source.get("enabled", True):
+            adapters.append(LeverAdapter(source["company"], source["token"]))
+    return adapters
 
 
 def collect_sources(

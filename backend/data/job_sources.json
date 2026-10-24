@@ -1,0 +1,150 @@
+{
+  "greenhouse": [
+    {
+      "company": "Stripe",
+      "token": "stripe",
+      "careers_url": "https://boards.greenhouse.io/stripe",
+      "enabled": false
+    },
+    {
+      "company": "Airbnb",
+      "token": "airbnb",
+      "careers_url": "https://boards.greenhouse.io/airbnb",
+      "enabled": true
+    },
+    {
+      "company": "Databricks",
+      "token": "databricks",
+      "careers_url": "https://boards.greenhouse.io/databricks",
+      "enabled": false
+    },
+    {
+      "company": "Cloudflare",
+      "token": "cloudflare",
+      "careers_url": "https://boards.greenhouse.io/cloudflare",
+      "enabled": false
+    },
+    {
+      "company": "Coinbase",
+      "token": "coinbase",
+      "careers_url": "https://boards.greenhouse.io/coinbase",
+      "enabled": true
+    },
+    {
+      "company": "Figma",
+      "token": "figma",
+      "careers_url": "https://boards.greenhouse.io/figma",
+      "enabled": true
+    },
+    {
+      "company": "Discord",
+      "token": "discord",
+      "careers_url": "https://boards.greenhouse.io/discord",
+      "enabled": true
+    },
+    {
+      "company": "Reddit",
+      "token": "reddit",
+      "careers_url": "https://boards.greenhouse.io/reddit",
+      "enabled": true
+    },
+    {
+      "company": "Pinterest",
+      "token": "pinterest",
+      "careers_url": "https://boards.greenhouse.io/pinterest",
+      "enabled": true
+    },
+    {
+      "company": "Datadog",
+      "token": "datadog",
+      "careers_url": "https://boards.greenhouse.io/datadog",
+      "enabled": false
+    },
+    {
+      "company": "Mongodb",
+      "token": "mongodb",
+      "careers_url": "https://boards.greenhouse.io/mongodb",
+      "enabled": false
+    },
+    {
+      "company": "Elastic",
+      "token": "elastic",
+      "careers_url": "https://boards.greenhouse.io/elastic",
+      "enabled": false
+    },
+    {
+      "company": "Gitlab",
+      "token": "gitlab",
+      "careers_url": "https://boards.greenhouse.io/gitlab",
+      "enabled": true
+    },
+    {
+      "company": "Asana",
+      "token": "asana",
+      "careers_url": "https://boards.greenhouse.io/asana",
+      "enabled": true
+    },
+    {
+      "company": "Dropbox",
+      "token": "dropbox",
+      "careers_url": "https://boards.greenhouse.io/dropbox",
+      "enabled": true
+    },
+    {
+      "company": "Lyft",
+      "token": "lyft",
+      "careers_url": "https://boards.greenhouse.io/lyft",
+      "enabled": true
+    },
+    {
+      "company": "Twilio",
+      "token": "twilio",
+      "careers_url": "https://boards.greenhouse.io/twilio",
+      "enabled": true
+    },
+    {
+      "company": "Okta",
+      "token": "okta",
+      "careers_url": "https://boards.greenhouse.io/okta",
+      "enabled": false
+    },
+    {
+      "company": "Instacart",
+      "token": "instacart",
+      "careers_url": "https://boards.greenhouse.io/instacart",
+      "enabled": true
+    },
+    {
+      "company": "Robinhood",
+      "token": "robinhood",
+      "careers_url": "https://boards.greenhouse.io/robinhood",
+      "enabled": true
+    },
+    {
+      "company": "Brex",
+      "token": "brex",
+      "careers_url": "https://boards.greenhouse.io/brex",
+      "enabled": false
+    },
+    {
+      "company": "Gusto",
+      "token": "gusto",
+      "careers_url": "https://boards.greenhouse.io/gusto",
+      "enabled": true
+    }
+  ],
+  "lever": [
+    {
+      "company": "Palantir",
+      "token": "palantir",
+      "careers_url": "https://jobs.lever.co/palantir",
+      "enabled": false
+    },
+    {
+      "company": "Cred",
+      "token": "cred",
+      "careers_url": "https://jobs.lever.co/cred",
+      "enabled": true
+    }
+  ]
+}
