@@ -97,6 +97,19 @@ public board endpoints. `trim_sources.py` keeps the selected boards enabled.
 Review `data/job_sources.json` before collecting. Never bypass a platform's
 terms, authentication, or rate limits.
 
+### Public APIs and sources used
+
+The dataset was collected from publicly available recruiting-board APIs:
+
+- **Greenhouse Job Board API** — `https://boards-api.greenhouse.io/v1/boards/{board_token}/jobs?content=true`
+- **Lever Postings API** — `https://api.lever.co/v0/postings/{company_token}?mode=json`
+
+The Lever careers iframe is only an embed; the collector uses the underlying
+public JSON postings endpoint. Each normalized record retains its `source_name`
+and original `source_url` so listings can be traced back to the relevant public
+job posting. No authenticated endpoints or direct scraping of LinkedIn, Indeed,
+or other restricted platforms is used.
+
 ## Validation
 
 ```powershell
