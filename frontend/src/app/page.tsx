@@ -104,7 +104,6 @@ export default function HomePage() {
       setUploading(false);
       event.target.value = "";
     }
-
   }
 
   async function showApplications() {
@@ -132,7 +131,9 @@ export default function HomePage() {
       ]);
     } catch (reason) {
       setError(
-        reason instanceof Error ? reason.message : "Could not load applications.",
+        reason instanceof Error
+          ? reason.message
+          : "Could not load applications.",
       );
     }
   }
@@ -202,7 +203,9 @@ export default function HomePage() {
             {profile && (
               <div className="profile-grid">
                 <strong>{profile.name ?? "Profile extracted"}</strong>
-                <span>{profile.current_designation ?? "Designation not listed"}</span>
+                <span>
+                  {profile.current_designation ?? "Designation not listed"}
+                </span>
                 {(profile.email || profile.phone) && (
                   <div className="profile-contact">
                     {profile.email && <span>{profile.email}</span>}
@@ -224,7 +227,11 @@ export default function HomePage() {
               </div>
             )}
           </div>
-          <button className="secondary-button" type="button" onClick={() => void showApplications()}>
+          <button
+            className="secondary-button"
+            type="button"
+            onClick={() => void showApplications()}
+          >
             View my applications
           </button>
           {error && (
@@ -235,7 +242,10 @@ export default function HomePage() {
         </aside>
       </div>
       {profile && (
-        <section className="profile-details" aria-label="Extracted resume details">
+        <section
+          className="profile-details"
+          aria-label="Extracted resume details"
+        >
           <div className="section-heading">
             <div>
               <div className="eyebrow">Resume insights</div>
@@ -254,7 +264,10 @@ export default function HomePage() {
               <article className="profile-detail-card">
                 <h3>Education</h3>
                 {profile.education.map((education, index) => (
-                  <div className="profile-item" key={`${education.institution}-${index}`}>
+                  <div
+                    className="profile-item"
+                    key={`${education.institution}-${index}`}
+                  >
                     <strong>{education.degree ?? "Education"}</strong>
                     <span>
                       {[education.field_of_study, education.institution]
@@ -275,7 +288,9 @@ export default function HomePage() {
                   {profile.projects.map((project) => (
                     <div className="profile-item" key={project.name}>
                       <strong>{project.name}</strong>
-                      {project.description && <span>{project.description}</span>}
+                      {project.description && (
+                        <span>{project.description}</span>
+                      )}
                       {project.technologies.length > 0 && (
                         <div className="tag-list">
                           {project.technologies.map((technology) => (
@@ -299,7 +314,9 @@ export default function HomePage() {
             <div>
               <h2>Recommended jobs</h2>
               <p className="subtle">
-                Showing {pageStart + 1}-{Math.min(pageStart + JOBS_PER_PAGE, jobs.length)} of {jobs.length} jobs
+                Showing {pageStart + 1}-
+                {Math.min(pageStart + JOBS_PER_PAGE, jobs.length)} of{" "}
+                {jobs.length} jobs
               </p>
             </div>
           </div>
@@ -312,7 +329,10 @@ export default function HomePage() {
             />
           ))}
           {totalPages > 1 && (
-            <div className="pagination pagination-bottom" aria-label="Job results pagination">
+            <div
+              className="pagination pagination-bottom"
+              aria-label="Job results pagination"
+            >
               <button
                 className="pagination-button"
                 type="button"
@@ -328,7 +348,9 @@ export default function HomePage() {
               <button
                 className="pagination-button"
                 type="button"
-                onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
+                onClick={() =>
+                  setCurrentPage((page) => Math.min(totalPages, page + 1))
+                }
                 disabled={currentPage === totalPages}
                 aria-label="Next jobs page"
               >
