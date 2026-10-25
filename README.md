@@ -5,6 +5,12 @@ assessment. A user uploads a PDF or DOCX resume, receives a structured profile,
 searches and ranks jobs conversationally, records simulated applications, and
 reviews application history.
 
+## Live deployment
+
+- **Live application:** [ai-job-search-phi-vert.vercel.app](https://ai-job-search-phi-vert.vercel.app/)
+- **Backend health check:** [ai-job-bjkc.onrender.com/api/v1/health](https://ai-job-bjkc.onrender.com/api/v1/health)
+- **Source repository:** [github.com/ankit03ak/ai-job-chat-assistant](https://github.com/ankit03ak/ai-job-chat-assistant)
+
 ## Current scope
 
 The application is intentionally safe: applications are recorded locally and
@@ -123,8 +129,8 @@ npm run build
 ## Assignment submission checklist
 
 - [ ] Deploy frontend and backend and verify the live end-to-end flow.
-- [ ] Configure production CORS and `NEXT_PUBLIC_API_BASE_URL`.
+- [x] Configure production CORS and `NEXT_PUBLIC_API_BASE_URL`.
 - [x] Add a permitted real 1,500-2,000 listing dataset.
 - [x] Include the scraper adapters and provenance fields.
 - [ ] Record a 3-5 minute demo: upload, parse, search, refine, apply, and track.
-- [ ] Publish this repository and include the live URL in the submission.
+- [x] Publish this repository and include the live URL in the submission.
