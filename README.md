@@ -125,12 +125,3 @@ cd ..\frontend
 npm run typecheck
 npm run build
 ```
-
-## Assignment submission checklist
-
-- [ ] Deploy frontend and backend and verify the live end-to-end flow.
-- [x] Configure production CORS and `NEXT_PUBLIC_API_BASE_URL`.
-- [x] Add a permitted real 1,500-2,000 listing dataset.
-- [x] Include the scraper adapters and provenance fields.
-- [ ] Record a 3-5 minute demo: upload, parse, search, refine, apply, and track.
-- [x] Publish this repository and include the live URL in the submission.
